@@ -20,6 +20,7 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get install -y \
         jq \
         nano \
         vim \
+        apt-utils \
     --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 RUN \
@@ -27,7 +28,7 @@ RUN \
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar; \
     php wp-cli.phar --info; \
     chmod +x wp-cli.phar; \
-    sudo mv wp-cli.phar /usr/local/bin/wp; \
+    mv wp-cli.phar /usr/local/bin/wp; \
     # Changes user id of www-data to 1000 for permissions and shares
     # compatibility with other machines
     usermod -u 1000 www-data; \
@@ -55,7 +56,8 @@ RUN composer -V
 # Install node
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install --no-install-recommends -y \
-        nodejs
+        nodejs \
+        npm
 
 # Update npm and yarn
 RUN npm install -g npm yarn
